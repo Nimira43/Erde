@@ -1,5 +1,8 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useBusiness } from '@/context/business'
 
 interface InputField {
@@ -65,11 +68,46 @@ const inputFields: InputField[] = [
 export default function AddBusinessPage() {
   const { business} = useBusiness()
 
+  const handleChange = () => {
+
+  }
+
+  const handleSubmit = () => {
+
+  }
+
   return (
     <div className='flex flex-col lg:flex-row h-screen'>
-      <div className='flex flex-col lg:w-1/2 p-4 lg:order-last lg:flex lg:justify-center lg:items-center'>Preview</div>
-      <div className='flex flex-col lg:w-1/2 p-4 lg:order-first lg:flex lg:justify-center lg:items-center'>
-        <pre>{JSON.stringify(business, null, 4)}</pre>
+      <div className='flex flex-col lg:w-1/2 p-4 lg:order-last lg:flex lg:justify-center lg:items-center overflow-y-auto'>Preview</div>
+      <div className='flex flex-col lg:w-1/2 p-4 lg:order-first lg:flex overflow-y-auto'>
+      <h1 className='text-center text-main-dark text-lg'>Please fill out the form to register your business with us.</h1>
+        {inputFields.map(( item, index ) => (
+          <div 
+            key={index}
+            className='w-full my-2'
+          >
+            <Label 
+              htmlFor={item.name}
+              className='capitalize'
+            >
+              {item.name}
+            </Label>
+            <Input 
+              name={item.name}
+              type={item.type}
+              required={item.required}
+              onChange={handleChange}
+              // value={business[item.name as keyof BusinessState] || ''}
+            />
+          </div>
+        ))}
+        <Button
+          onClick={handleSubmit}
+          type='submit'
+          className='my-5'
+        >
+          Submit
+        </Button>
       </div>
     </div>
   )
