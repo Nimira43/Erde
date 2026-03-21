@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useBusiness } from '@/context/business'
+import { BusinessState } from '@/utils/types/business'
 
 interface InputField {
   name: string
@@ -66,15 +67,7 @@ const inputFields: InputField[] = [
 ]
 
 export default function AddBusinessPage() {
-  const { business} = useBusiness()
-
-  const handleChange = () => {
-
-  }
-
-  const handleSubmit = () => {
-
-  }
+  const { business, handleChange, handleSubmit } = useBusiness()
 
   return (
     <div className='flex flex-col lg:flex-row h-screen'>
@@ -97,7 +90,10 @@ export default function AddBusinessPage() {
               type={item.type}
               required={item.required}
               onChange={handleChange}
-              // value={business[item.name as keyof BusinessState] || ''}
+              value={(business[item.name as keyof BusinessState] || '') as 
+                | string
+                | number
+              }
             />
           </div>
         ))}

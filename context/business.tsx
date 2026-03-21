@@ -1,26 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, ReactNode } from 'react'
-
-interface BusinessState {
-  _id: string
-  userEmail: string
-  name: string
-  category: string
-  description: string
-  address: string
-  phone: string
-  email: string
-  website: string
-  hours: string
-  logo: string
-  businessNumber: string
-  slug: string
-  published?: boolean
-  createdAt: string
-  updatedAt: string
-  __v: number
-}
+import { BusinessState } from '@/utils/types/business'
 
 const initialState: BusinessState = {
   _id: '',
@@ -46,6 +27,8 @@ interface BusinessContextType {
   setBusiness: React.Dispatch<React.SetStateAction<BusinessState>>
   loading: boolean
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleSubmit: (e: React.FormEvent) => void
 }
 
 const BusinessContext = createContext<BusinessContextType | undefined>(
@@ -56,9 +39,32 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [business, setBusiness] = useState<BusinessState>(initialState)
   const [loading, setLoading] = useState<boolean>(false)
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setBusiness((prevBusiness: BusinessState) =>  {
+      const updatedBusiness = {
+        ...prevBusiness, 
+        [name]: value  
+      }
+      return updatedBusiness
+    }) 
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log(business)
+  }
+
   return (
     <BusinessContext.Provider
-      value={{business, setBusiness, loading, setLoading}}
+      value={{
+        business, 
+        setBusiness, 
+        loading, 
+        setLoading, 
+        handleChange, 
+        handleSubmit,
+      }}
     >
       {children}
     </BusinessContext.Provider>
